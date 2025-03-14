@@ -4,12 +4,13 @@ import { AdvancedMarker } from "@vis.gl/react-google-maps";
 import PinIcon from "@/assets/icons/Map-Pin-Duotone--Streamline-Phosphor.svg";
 import { SelectedRestaurantContext } from "@/app/context/SelectedRestaurantContext";
 import RestaurantCard from "./RestaurantCard";
+import { Place } from "@/types/GooglePlacesApiResponseType";
 
 export default function MapMarker({
   placeData,
   fallbackZIndex,
 }: {
-  placeData: google.maps.places.Place;
+  placeData: Place;
   fallbackZIndex: number;
 }) {
   const { updateSelectedRestaurant, selectedRestaurant } = useContext(
@@ -26,8 +27,8 @@ export default function MapMarker({
     <>
       <AdvancedMarker
         position={{
-          lat: placeData.location.latitude,
-          lng: placeData.location.longitude,
+          lat: placeData.location?.latitude,
+          lng: placeData.location?.longitude,
         }}
         zIndex={isSelected ? 9999 : fallbackZIndex} // somewhat hacky way to make sure the selected pin is showing 'above' overlapping pins
       >

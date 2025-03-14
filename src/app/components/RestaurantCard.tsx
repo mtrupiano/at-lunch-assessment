@@ -1,29 +1,26 @@
 import { useCallback, useContext } from "react";
 
-import { Place } from "@/types/GooglePlacesLegacyApiTypes";
 import StarIcon from "@/assets/icons/Star-S-Fill--Streamline-Remix-Fill.svg";
 import { BookmarkedRestaurantsContext } from "@/app/context/BookmarkedRestaurantsContext";
 import { SelectedRestaurantContext } from "@/app/context/SelectedRestaurantContext";
 import BookmarkButton from "./BookmarkButton";
 import Image from "next/image";
-
-const getPlacePhotoURL = (resourceName: string) =>
-  `https://places.googleapis.com/v1/${resourceName}/media?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&maxHeightPx=72`;
+import { Place } from "@/types/GooglePlacesApiResponseType";
 
 export default function RestaurantCard({
   placeData,
   handleSelectRestaurant,
   isInMapView,
 }: {
-  placeData: google.maps.places.Place;
-  handleSelectRestaurant?: (place: google.maps.places.Place) => void;
+  placeData: Place;
+  handleSelectRestaurant?: (place: Place) => void;
   isInMapView?: boolean;
 }) {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const photoRef = useCallback(getPlacePhotoURL(placeData.photos?.[0].name), [
-    getPlacePhotoURL,
-    placeData,
-  ]);
+  const photoRef = useCallback(
+    () =>
+      `https://places.googleapis.com/v1/${placeData.photos[0].name}/media?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&maxHeightPx=72`,
+    [placeData],
+  );
 
   const { bookmarkedRestaurants, handleToggleBookmarkRestaurant } = useContext(
     BookmarkedRestaurantsContext,
@@ -31,7 +28,7 @@ export default function RestaurantCard({
   const { selectedRestaurant } = useContext(SelectedRestaurantContext);
 
   const handleBookmark = () => {
-    if (placeData?.id) {
+    if (placeData.id) {
       handleToggleBookmarkRestaurant(placeData.id);
     }
   };
@@ -55,9 +52,9 @@ export default function RestaurantCard({
     >
       <div className="flex h-[72px] justify-between">
         <div className="flex max-w-[calc(100%-40px)] space-x-2">
-          {photoRef ? (
+          {photoRef() ? (
             <Image
-              src={photoRef}
+              src={photoRef()}
               alt={`${placeData.displayName} thumbnail`}
               width={64}
               height={72}

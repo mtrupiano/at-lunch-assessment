@@ -10,6 +10,7 @@ import { nextPageSearchNew } from "@/app/actions";
 
 import RestaurantCard from "./RestaurantCard";
 import RestaurantCardSkeleton from "./RestaurantCardSkeleton";
+import { Place } from "@/types/GooglePlacesApiResponseType";
 
 export default function RestaurantCardList() {
   const map = useMap();
@@ -35,7 +36,7 @@ export default function RestaurantCardList() {
     }
   };
 
-  const handleSelectRestaurant = (placeData: google.maps.places.Place) => {
+  const handleSelectRestaurant = (placeData: Place) => {
     updateSelectedRestaurant(placeData);
     if (placeData.location) {
       map?.setCenter({

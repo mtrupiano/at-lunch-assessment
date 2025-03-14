@@ -34,6 +34,7 @@ export async function nextPageSearchNew(
   const results = await fetch(GOOGLE_PLACES_V1_URL, {
     method: "POST",
     body: JSON.stringify(request),
+    // @ts-expect-error Custom http headers required for google places API
     headers: {
       "Content-Type": "application/json",
       "X-Goog-Api-Key": process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
@@ -61,6 +62,7 @@ export async function searchActionNew(
   const results = await fetch(GOOGLE_PLACES_V1_URL, {
     method: "POST",
     body: JSON.stringify(request),
+    // @ts-expect-error Custom http headers required for google places API
     headers: {
       "Content-Type": "application/json",
       "X-Goog-Api-Key": process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
@@ -68,7 +70,6 @@ export async function searchActionNew(
     },
   });
 
-  console.log(results.status);
   const parsed = await results.json();
 
   return {

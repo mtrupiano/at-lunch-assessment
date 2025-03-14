@@ -1,3 +1,5 @@
+import { Place } from "./GooglePlacesApiResponseType";
+
 /** Location bias for google places API args */
 export type LocationBias = {
   circle?: {
@@ -21,10 +23,10 @@ export type LocationBias = {
 
 export type SearchActionNewResponseShape = {
   nextPageToken: string;
-  places: google.maps.places.Place[];
+  places: Place[];
   status: number;
   originalQueryParams: {
     textQuery: string;
-    locationBiasRectangle: LocationBias;
+    locationBias: LocationBias;
   };
 };

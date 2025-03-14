@@ -3,7 +3,7 @@ import { SearchActionNewResponseShape } from "@/types/SearchActionTypes";
 
 type SearchResultsContextType = {
   searchResults: SearchActionNewResponseShape;
-  resetResults: (newResults: SearchActionNewResponseShape) => void;
+  resetResults: (newResults: SearchActionNewResponseShape | null) => void;
   addMoreResults: (newResults: SearchActionNewResponseShape) => void;
 };
 export const SearchResultsContext = createContext<SearchResultsContextType>(
@@ -19,8 +19,12 @@ export default function SearchResultsContextProvider({
     {} as SearchActionNewResponseShape,
   );
 
-  const resetResults = (newResults: SearchActionNewResponseShape) => {
-    setSearchResults(newResults);
+  const resetResults = (newResults: SearchActionNewResponseShape | null) => {
+    if (newResults) {
+      setSearchResults(newResults);
+    } else {
+      setSearchResults({} as SearchActionNewResponseShape);
+    }
   };
 
   const addMoreResults = (newResults: SearchActionNewResponseShape) => {

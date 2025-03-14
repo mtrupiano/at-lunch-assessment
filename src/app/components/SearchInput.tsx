@@ -7,6 +7,7 @@ import { searchActionNew } from "@/app/actions";
 import SearchIcon from "@/assets/icons/Search--Streamline-Ionic-Filled.svg";
 import { SearchResultsContext } from "@/app/context/SearchResultsContext";
 import Spinner from "./Spinner";
+import { LocationBias } from "@/types/SearchActionTypes";
 
 export default function SearchInput() {
   const [isLoading, setIsLoading] = useState(false);
@@ -45,13 +46,16 @@ export default function SearchInput() {
         },
       };
     } else {
-      locationBias.circle = {
-        center: {
-          latitude: map?.getCenter()?.lat(),
-          longitude: map.getCenter()?.lng(),
-        },
-        radius: 10000.0, // 10km
-      };
+      const center = map?.getCenter()?.toJSON();
+      if (center) {
+        locationBias.circle = {
+          center: {
+            latitude: center.lat,
+            longitude: center.lng,
+          },
+          radius: 10000.0, // 10km
+        };
+      }
     }
 
     const searchResults = await searchActionNew(searchText, locationBias);
