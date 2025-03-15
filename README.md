@@ -6,7 +6,7 @@ This is my submission for a take-home assessment for a frontend engineering role
 
 ## Deployed
 
-<!-- TODO: add deployed link to README -->
+https://at-lunch-assessment.vercel.app/
 
 ## Local
 
